@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { PostCard } from './post-card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent } from '@/components/ui/card';
+import { useState, useEffect } from "react";
+import { PostCard } from "./post-card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface Post {
   _id: string;
@@ -32,22 +32,21 @@ export function PostFeed({ refreshTrigger, userId }: PostFeedProps) {
     try {
       setIsLoading(true);
       setError(null);
-      
-      const url = userId 
-        ? `http://localhost:5000/api/posts/user/${userId}`
-        : 'http://localhost:5000/api/posts';
-        
+      const url = userId
+        ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts/user/${userId}`
+        : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts`;
+
       const response = await fetch(url);
       const data = await response.json();
 
       if (response.ok) {
         setPosts(data.posts || []);
       } else {
-        setError(data.message || 'Failed to fetch posts');
+        setError(data.message || "Failed to fetch posts");
       }
     } catch (error) {
-      console.error('Fetch posts error:', error);
-      setError('Network error. Please try again.');
+      console.error("Fetch posts error:", error);
+      setError("Network error. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +98,9 @@ export function PostFeed({ refreshTrigger, userId }: PostFeedProps) {
       <Card>
         <CardContent className="p-6 text-center">
           <p className="text-muted-foreground">
-            {userId ? 'No posts yet.' : 'No posts in the feed yet. Be the first to share something!'}
+            {userId
+              ? "No posts yet."
+              : "No posts in the feed yet. Be the first to share something!"}
           </p>
         </CardContent>
       </Card>
@@ -109,11 +110,7 @@ export function PostFeed({ refreshTrigger, userId }: PostFeedProps) {
   return (
     <div className="space-y-6">
       {posts.map((post) => (
-        <PostCard 
-          key={post._id} 
-          post={post} 
-          onDelete={handlePostDelete}
-        />
+        <PostCard key={post._id} post={post} onDelete={handlePostDelete} />
       ))}
     </div>
   );
