@@ -104,7 +104,7 @@ export function TrendingTopics() {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <Badge
                     variant="secondary"
@@ -114,9 +114,7 @@ export function TrendingTopics() {
                   </Badge>
                   <div className="flex items-center gap-1 text-green-500">
                     <ArrowUp className="h-3 w-3" />
-                    <span className="text-xs font-medium">
-                      {topic.growth}%
-                    </span>
+                    <span className="text-xs font-medium">{topic.growth}%</span>
                   </div>
                 </div>
               </div>

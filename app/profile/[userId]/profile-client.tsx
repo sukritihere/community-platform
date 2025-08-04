@@ -31,7 +31,7 @@ export default function ProfileClient({ userId }: { userId: string }) {
         setError(null);
 
         const userResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/${userId}`
+          `https://community-platform-production-8117.up.railway.app/api/users/${userId}`
         );
         const userData = await userResponse.json();
 
@@ -43,7 +43,7 @@ export default function ProfileClient({ userId }: { userId: string }) {
         }
 
         const postsResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts/user/${userId}`
+          `https://community-platform-production-8117.up.railway.app/api/posts/user/${userId}`
         );
         const postsData = await postsResponse.json();
 

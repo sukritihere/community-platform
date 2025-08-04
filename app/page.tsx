@@ -101,7 +101,7 @@ export default function Home() {
       <Navbar />
 
       <main className="container mx-auto py-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <motion.aside
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
