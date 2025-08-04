@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { toast } from 'sonner';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { toast } from "sonner";
 
 interface User {
   id: string;
@@ -17,16 +23,22 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string, bio?: string) => Promise<boolean>;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    bio?: string
+  ) => Promise<boolean>;
   logout: () => void;
   updateProfile: (data: Partial<User>) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-api-domain.com/api' 
-  : 'http://localhost:5000/api';
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://community-platform-production-8117.up.railway.app/api"
+    : "https://community-platform-production-8117.up.railway.app/api";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -35,17 +47,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Load user from localStorage on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
+    const savedToken = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
 
     if (savedToken && savedUser) {
       setToken(savedToken);
       try {
         setUser(JSON.parse(savedUser));
       } catch (error) {
-        console.error('Error parsing saved user:', error);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+        console.error("Error parsing saved user:", error);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
       }
     }
     setIsLoading(false);
@@ -54,9 +66,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
@@ -66,27 +78,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (response.ok) {
         setToken(data.token);
         setUser(data.user);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        toast.success('Welcome back!');
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        toast.success("Welcome back!");
         return true;
       } else {
-        toast.error(data.message || 'Login failed');
+        toast.error(data.message || "Login failed");
         return false;
       }
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Network error. Please try again.');
+      console.error("Login error:", error);
+      toast.error("Network error. Please try again.");
       return false;
     }
   };
 
-  const register = async (name: string, email: string, password: string, bio?: string): Promise<boolean> => {
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    bio?: string
+  ): Promise<boolean> => {
     try {
       const response = await fetch(`${API_BASE_URL}/auth/register`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name, email, password, bio }),
       });
@@ -96,17 +113,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (response.ok) {
         setToken(data.token);
         setUser(data.user);
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        toast.success('Account created successfully!');
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        toast.success("Account created successfully!");
         return true;
       } else {
-        toast.error(data.message || 'Registration failed');
+        toast.error(data.message || "Registration failed");
         return false;
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      toast.error('Network error. Please try again.');
+      console.error("Registration error:", error);
+      toast.error("Network error. Please try again.");
       return false;
     }
   };
@@ -114,9 +131,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    toast.success('Logged out successfully');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    toast.success("Logged out successfully");
   };
 
   const updateProfile = async (data: Partial<User>): Promise<boolean> => {
@@ -124,10 +141,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     try {
       const response = await fetch(`${API_BASE_URL}/users/profile`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
@@ -136,30 +153,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response.ok) {
         setUser(result.user);
-        localStorage.setItem('user', JSON.stringify(result.user));
-        toast.success('Profile updated successfully!');
+        localStorage.setItem("user", JSON.stringify(result.user));
+        toast.success("Profile updated successfully!");
         return true;
       } else {
-        toast.error(result.message || 'Failed to update profile');
+        toast.error(result.message || "Failed to update profile");
         return false;
       }
     } catch (error) {
-      console.error('Update profile error:', error);
-      toast.error('Network error. Please try again.');
+      console.error("Update profile error:", error);
+      toast.error("Network error. Please try again.");
       return false;
     }
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      token,
-      isLoading,
-      login,
-      register,
-      logout,
-      updateProfile,
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isLoading,
+        login,
+        register,
+        logout,
+        updateProfile,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -168,7 +187,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
