@@ -56,7 +56,7 @@ export function PostCard({ post, onDelete }: PostCardProps) {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts/${post._id}`,
+        `https://community-platform-production-8117.up.railway.app/api/posts/${post._id}`,
         {
           method: "DELETE",
           headers: {

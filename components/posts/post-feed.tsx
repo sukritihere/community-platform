@@ -33,8 +33,8 @@ export function PostFeed({ refreshTrigger, userId }: PostFeedProps) {
       setIsLoading(true);
       setError(null);
       const url = userId
-        ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts/user/${userId}`
-        : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts`;
+        ? `https://community-platform-production-8117.up.railway.app/api/posts/user/${userId}`
+        : `https://community-platform-production-8117.up.railway.app/api/posts`;
 
       const response = await fetch(url);
       const data = await response.json();

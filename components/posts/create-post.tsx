@@ -39,7 +39,7 @@ export function CreatePost({ onPostCreated }: CreatePostProps) {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/posts`,
+        "https://community-platform-production-8117.up.railway.app/api/posts",
         {
           method: "POST",
           headers: {
